@@ -1,0 +1,22 @@
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { JwtModule } from '@nestjs/jwt';
+import { PassportModule } from '@nestjs/passport';
+import { AuthService } from './auth.service';
+import { AuthController } from './auth.controller';
+import { Colaborador } from '../colaborador/colaborador.entity'; // Ajusta esta importación según tu entidad de usuario
+import { JwtStrategy } from './jwt.strategy';
+
+@Module({
+  imports: [
+    TypeOrmModule.forFeature([Colaborador]),
+    PassportModule,
+    JwtModule.register({
+      secret: 'your-secret-key', // Cambia esto por una clave secreta más segura
+      signOptions: { expiresIn: '60m' },
+    }),
+  ],
+  providers: [AuthService, JwtStrategy],
+  controllers: [AuthController],
+})
+export class AuthModule {}
