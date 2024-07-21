@@ -10,10 +10,10 @@ import { UsuariosRegistrados } from './usuarios-registrados/usuarios-registrados
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
+      host: 'elated-kowalevski.51-222-158-198.plesk.page',
       port: 3306,
-      username: 'root',
-      password: '',
+      username: 'rrhh',
+      password: 'Integracion123**',
       database: 'admin_rrhh',
       entities: [Colaborador,UsuariosRegistrados],
       autoLoadEntities: true,

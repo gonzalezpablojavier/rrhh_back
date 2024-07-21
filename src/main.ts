@@ -3,9 +3,14 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+    // Leer orígenes permitidos desde las variables de entorno
+
  // Habilitar CORS
  app.enableCors({
-  origin: '*', // Permitir todas las solicitudes. Cambia esto a tu dominio específico en producción
+  origin: 'https://rrhh-distrisuper.vercel.app', // Permitir solicitudes desde cualquier origen
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+  allowedHeaders: 'Content-Type,Authorization,Accept,Origin,X-Requested-With',
+  credentials:true,
  
 });
 
