@@ -6,6 +6,9 @@ import { UsuariosRegistrados } from './usuarios-registrados.entity';
 export class UsuariosRegistradosController {
   constructor(private readonly usuariosRegistradosService: UsuariosRegistradosService) {}
 
+
+
+
   @Post('create-if-not-exists')
   async createIfNotExists(@Body() data: Partial<UsuariosRegistrados>) {
     try {

@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn,OneToMany  } from 'typeorm';
 import { Colaborador } from '../colaborador/colaborador.entity'; // Ajusta esta importación según tu entidad de usuario
+import { Mood } from '../mood/mood.entity';
 
 @Entity()
 export class UsuariosRegistrados {
@@ -42,7 +43,9 @@ export class UsuariosRegistrados {
   @Column()
   email: string;
 
-   
-  @Column()
+  @Column({ unique: true })
   colaboradorID: number; // Asegúrate de que este campo esté definido
+
+  @OneToMany(() => Mood, (mood) => mood.colaboradorID)
+  moods: Mood[];
 }

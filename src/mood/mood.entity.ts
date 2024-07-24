@@ -1,6 +1,6 @@
 import { Timestamp } from 'rxjs';
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
-
+import { Entity, PrimaryGeneratedColumn, Column,ManyToOne,JoinColumn } from 'typeorm';
+import { UsuariosRegistrados } from '../usuarios-registrados/usuarios-registrados.entity';
 @Entity()
 export class Mood {
   @PrimaryGeneratedColumn()
@@ -14,4 +14,12 @@ export class Mood {
 
   @Column()
   mood: string;
+
+
+  @ManyToOne(() => UsuariosRegistrados, (usuario) => usuario.moods, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'colaboradorID', referencedColumnName: 'colaboradorID' })
+  colaborador: UsuariosRegistrados;
+  
+
+
 }
