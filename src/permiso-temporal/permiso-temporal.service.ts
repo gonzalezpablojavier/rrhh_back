@@ -37,6 +37,13 @@ export class PermisoTemporalService {
     return this.findOne(id);
   }
 
+  async getLatestByColaboradorID(colaboradorID: number): Promise<PermisoTemporal | undefined> {
+    return await this.permisoTemporalRepository.findOne({
+      where: { colaboradorID },
+      order: { date: 'DESC' },
+    });
+  }
+
   async remove(id: number): Promise<void> {
     await this.permisoTemporalRepository.delete(id);
   }

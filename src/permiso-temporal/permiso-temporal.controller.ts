@@ -45,4 +45,10 @@ export class PermisoTemporalController {
       return { ok: 0, message: error.message };
     }
   }
+
+  
+  @Get('latest/:colaboradorID')
+  async getLatestByColaboradorID(@Param('colaboradorID') colaboradorID: number) {
+    return await this.permisoTemporalService.getLatestByColaboradorID(colaboradorID);
+  }
 }

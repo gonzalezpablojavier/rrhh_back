@@ -9,7 +9,9 @@ import { PermisoTemporalModule } from './permiso-temporal/permiso-temporal.modul
 import { PermisoTemporal } from './permiso-temporal/permiso-temporal.entity';
 import { PresentismoModule } from './presentismo/presentismo.module';
 import { Presentismo } from './presentismo/presentismo.entity';
-
+import { MulterModule } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -23,6 +25,20 @@ import { Presentismo } from './presentismo/presentismo.entity';
       autoLoadEntities: true,
       synchronize: true,
     }),
+    MulterModule.register({
+      storage: diskStorage({
+        destination: './uploads', // Carpeta temporal para guardar los archivos
+        filename: (req, file, cb) => {
+          const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+          cb(null, `${uniqueSuffix}${extname(file.originalname)}`);
+        },
+      }),
+    }),
+
+
+
+
+
     MoodModule,
     AuthModule,
     UsuariosRegistradosModule,
