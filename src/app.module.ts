@@ -7,7 +7,8 @@ import { UsuariosRegistradosModule } from './usuarios-registrados/usuarios-regis
 import { UsuariosRegistrados } from './usuarios-registrados/usuarios-registrados.entity';
 import { PermisoTemporalModule } from './permiso-temporal/permiso-temporal.module';
 import { PermisoTemporal } from './permiso-temporal/permiso-temporal.entity';
-
+import { PresentismoModule } from './presentismo/presentismo.module';
+import { Presentismo } from './presentismo/presentismo.entity';
 
 @Module({
   imports: [
@@ -18,7 +19,7 @@ import { PermisoTemporal } from './permiso-temporal/permiso-temporal.entity';
       username: 'rrhh',
       password: 'Integracion123**',
       database: 'admin_rrhh',
-      entities: [Colaborador,UsuariosRegistrados,PermisoTemporal],
+      entities: [Colaborador,UsuariosRegistrados,PermisoTemporal,Presentismo],
       autoLoadEntities: true,
       synchronize: true,
     }),
@@ -26,6 +27,7 @@ import { PermisoTemporal } from './permiso-temporal/permiso-temporal.entity';
     AuthModule,
     UsuariosRegistradosModule,
     PermisoTemporalModule,
+    PresentismoModule,
   ],
 })
 export class AppModule {}

@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn,OneToMany  } from 'typeorm';
 import { Colaborador } from '../colaborador/colaborador.entity'; // Ajusta esta importación según tu entidad de usuario
 import { Mood } from '../mood/mood.entity';
+import { Presentismo } from '../presentismo/presentismo.entity';
 
 @Entity()
 export class UsuariosRegistrados {
@@ -48,4 +49,8 @@ export class UsuariosRegistrados {
 
   @OneToMany(() => Mood, (mood) => mood.colaboradorID)
   moods: Mood[];
+
+  
+  @OneToMany(() => Presentismo, (presentismo) => presentismo.colaboradorID)
+  presentismos: Presentismo[];
 }
