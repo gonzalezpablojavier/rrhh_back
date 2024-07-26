@@ -12,8 +12,12 @@ import { Presentismo } from './presentismo/presentismo.entity';
 import { MulterModule } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
+import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'elated-kowalevski.51-222-158-198.plesk.page',
@@ -34,11 +38,6 @@ import { extname } from 'path';
         },
       }),
     }),
-
-
-
-
-
     MoodModule,
     AuthModule,
     UsuariosRegistradosModule,

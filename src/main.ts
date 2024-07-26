@@ -9,8 +9,8 @@ async function bootstrap() {
  app.enableCors({
   origin: 'https://rrhh-distrisuper.vercel.app', // Permitir solicitudes desde cualquier origen https://rrhh-distrisuper.vercel.app
  //origin:'http://localhost:3001', 
- methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-  allowedHeaders: 'Content-Type,Authorization,Accept,Origin,X-Requested-With',
+ methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+ allowedHeaders: ['Content-Type', 'Authorization'],
   credentials:true,
  
 });

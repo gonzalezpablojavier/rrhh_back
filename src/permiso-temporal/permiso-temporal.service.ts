@@ -47,4 +47,22 @@ export class PermisoTemporalService {
   async remove(id: number): Promise<void> {
     await this.permisoTemporalRepository.delete(id);
   }
+
+
+  async deleteLastEvaluatingPermiso(colaboradorID: number): Promise<boolean> {
+    const lastPermiso = await this.permisoTemporalRepository.findOne({
+      where: { 
+        colaboradorID: colaboradorID, 
+        autorizado: 'Evaluando' 
+      },
+      order: { date: 'DESC' }
+    });
+
+    if (lastPermiso) {
+      await this.permisoTemporalRepository.remove(lastPermiso);
+      return true;
+    }
+
+    return false;
+  }
 }

@@ -21,6 +21,15 @@ export class PresentismoController {
     return this.presentismoService.findByColaboradorID(colaboradorID);
   }
 
+  @Get(':colaboradorID/last')
+  async findLastByColaboradorID(@Param('colaboradorID') colaboradorID: number): Promise<any> {
+    const presente = await this.presentismoService.findLastByColaboradorID(colaboradorID);
+    if (presente) {
+      return { ok: 1, message: 'Último registro encontrado', data: presente };
+    }
+    return { ok: 0, message: 'No se encontró el último registro' };
+  }
+
   @Get(':id')
   findOne(@Param('id') id: number): Promise<Presentismo> {
     return this.presentismoService.findOne(id);
@@ -35,4 +44,7 @@ export class PresentismoController {
   remove(@Param('id') id: number): Promise<void> {
     return this.presentismoService.remove(id);
   }
+
+
+  
 }

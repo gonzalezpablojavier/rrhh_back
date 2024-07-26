@@ -42,4 +42,11 @@ export class PresentismoService {
       throw new NotFoundException('Registro no encontrado');
     }
   }
+
+  async findLastByColaboradorID(colaboradorID: number): Promise<Presentismo> {
+    return this.presentismoRepository.findOne({
+      where: { colaboradorID },
+      order: { horaRegistro: 'DESC' },
+    });
+  }
 }

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, BadRequestException } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, BadRequestException, HttpException, HttpStatus  } from '@nestjs/common';
 import { PermisoTemporalService } from './permiso-temporal.service';
 import { PermisoTemporal } from './permiso-temporal.entity';
 
@@ -50,5 +50,16 @@ export class PermisoTemporalController {
   @Get('latest/:colaboradorID')
   async getLatestByColaboradorID(@Param('colaboradorID') colaboradorID: number) {
     return await this.permisoTemporalService.getLatestByColaboradorID(colaboradorID);
+  }
+
+
+  @Delete('delete-last-evaluating/:colaboradorID')
+  async deleteLastEvaluatingPermiso(@Param('colaboradorID') colaboradorID: number) {
+    const deleted = await this.permisoTemporalService.deleteLastEvaluatingPermiso(colaboradorID);
+    if (deleted) {
+      return { message: 'Último permiso en evaluación eliminado con éxito' };
+    } else {
+      throw new HttpException('No se encontró un permiso en evaluación para eliminar', HttpStatus.NOT_FOUND);
+    }
   }
 }
