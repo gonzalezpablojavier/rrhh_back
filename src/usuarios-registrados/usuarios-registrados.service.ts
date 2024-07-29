@@ -79,9 +79,9 @@ export class UsuariosRegistradosService {
       
       this.logger.log('Intentando conexión FTP');
       await client.access({
-        host: this.configService.get<string>('www.distrisuper.com.ar'),
-        user: this.configService.get<string>('distriback'),
-        password: this.configService.get<string>('ySJXVjG72m'),
+        host: 'www.distrisuper.com.ar',// this.configService.get<string>('www.distrisuper.com.ar'),
+        user: 'distriback',//this.configService.get<string>('distriback'),
+        password: 'ySJXVjG72m',//this.configService.get<string>('ySJXVjG72m'),
         secure: false,
       });
       this.logger.log('Conexión FTP exitosa');
