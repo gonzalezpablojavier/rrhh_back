@@ -37,7 +37,7 @@ export class UsuariosRegistradosService {
     const filename = file.originalname;
     await this.uploadFileToFTP(file);
 
-    const imageDomain = 'www.distrisuper.com.ar'//this.configService.get<string>('IMAGE_DOMAIN');
+    const imageDomain = 'distrisuperapis.com.ar'//this.configService.get<string>('IMAGE_DOMAIN');
     return `${imageDomain}/remote/path/${filename}`;
   }
 
@@ -70,7 +70,7 @@ export class UsuariosRegistradosService {
     const localFilePath = path.join(__dirname, '../../uploads', filename);
     this.logger.log('Ruta local del archivo:', localFilePath);
     
-    const remoteDirPath = `/public_html/remote/path/`;
+    const remoteDirPath = `/remote/path/`;
     const remoteFilePath = `${remoteDirPath}${filename}`;
     this.logger.log('Ruta remota del archivo:', remoteFilePath);
     
@@ -79,8 +79,8 @@ export class UsuariosRegistradosService {
       
       this.logger.log('Intentando conexión FTP');
       await client.access({
-        host: 'www.distrisuper.com.ar',// this.configService.get<string>('www.distrisuper.com.ar'),
-        user: 'distriback',//this.configService.get<string>('distriback'),
+        host: 'serene-dewdney.51-222-158-198.plesk.page',// this.configService.get<string>('www.distrisuper.com.ar'),
+        user: 'rrhh',//this.configService.get<string>('distriback'),
         password: 'ySJXVjG72m',//this.configService.get<string>('ySJXVjG72m'),
         secure: false,
       });
