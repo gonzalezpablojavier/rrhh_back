@@ -37,7 +37,7 @@ export class UsuariosRegistradosService {
     const filename = file.originalname;
     await this.uploadFileToFTP(file);
 
-    const imageDomain = 'distrisuperapis.com.ar'//this.configService.get<string>('IMAGE_DOMAIN');
+    const imageDomain = 'https://distrisuperapis.com.ar'//this.configService.get<string>('IMAGE_DOMAIN');
     return `${imageDomain}/remote/path/${filename}`;
   }
 
