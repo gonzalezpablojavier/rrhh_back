@@ -10,6 +10,8 @@ import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class UsuariosRegistradosService {
   private readonly logger = new Logger(UsuariosRegistradosService.name);
+  private readonly maxRetries = 3;
+  private readonly retryDelay = 2000; // 2 segundos
 
   constructor(
     @InjectRepository(UsuariosRegistrados)
@@ -38,10 +40,30 @@ export class UsuariosRegistradosService {
     const imageDomain = this.configService.get<string>('IMAGE_DOMAIN');
     return `${imageDomain}/remote/path/${filename}`;
   }
+
+
+  private async uploadWithRetry(
+    client: ftp.Client,
+    localFilePath: string,
+    remoteFilePath: string,
+    retryCount = 0
+  ): Promise<void> {
+    try {
+      await client.uploadFrom(localFilePath, remoteFilePath);
+      this.logger.log('Archivo cargado exitosamente');
+    } catch (error) {
+      if (retryCount < this.maxRetries) {
+        this.logger.warn(`Intento ${retryCount + 1} fallido. Reintentando en ${this.retryDelay}ms...`);
+        await new Promise(resolve => setTimeout(resolve, this.retryDelay));
+        return this.uploadWithRetry(client, localFilePath, remoteFilePath, retryCount + 1);
+      }
+      throw error;
+    }
+  }
  
   private async uploadFileToFTP(file: Express.Multer.File): Promise<void> {
     this.logger.log('Iniciando uploadFileToFTP con file:', file.originalname);
-    const client = new ftp.Client();
+    const client = new ftp.Client(10000);
     client.ftp.verbose = true;
     
     const filename = file.originalname;
@@ -57,22 +79,30 @@ export class UsuariosRegistradosService {
       
       this.logger.log('Intentando conexión FTP');
       await client.access({
-        host: this.configService.get<string>('FTP_HOST'),
-        user: this.configService.get<string>('FTP_USER'),
-        password: this.configService.get<string>('FTP_PASSWORD'),
+        host: this.configService.get<string>('www.distrisuper.com.ar'),
+        user: this.configService.get<string>('distriback'),
+        password: this.configService.get<string>('ySJXVjG72m'),
         secure: false,
       });
       this.logger.log('Conexión FTP exitosa');
       
       await client.ensureDir(remoteDirPath);
       
-      await client.uploadFrom(localFilePath, remoteFilePath);
+     // await client.uploadFrom(localFilePath, remoteFilePath);
+      await this.uploadWithRetry(client, localFilePath, remoteFilePath);
       this.logger.log('Archivo cargado exitosamente');
       
       await fs.promises.unlink(localFilePath);
       this.logger.log('Archivo local eliminado');
     } catch (error) {
       this.logger.error('Error al cargar el archivo al FTP:', error);
+      if (error instanceof ftp.FTPError) {
+        this.logger.error(`Código FTP: ${error.code}`);
+      }
+      if (error instanceof Error) {
+        this.logger.error(`Mensaje de error: ${error.message}`);
+        this.logger.error(`Stack trace: ${error.stack}`);
+      }
       throw error;
     } finally {
       client.close();

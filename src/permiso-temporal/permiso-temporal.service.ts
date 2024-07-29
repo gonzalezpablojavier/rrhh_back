@@ -40,7 +40,7 @@ export class PermisoTemporalService {
   async getLatestByColaboradorID(colaboradorID: number): Promise<PermisoTemporal | undefined> {
     return await this.permisoTemporalRepository.findOne({
       where: { colaboradorID },
-      order: { date: 'DESC' },
+      order: { id: 'DESC' },
     });
   }
 
