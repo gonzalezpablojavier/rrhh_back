@@ -70,7 +70,7 @@ export class UsuariosRegistradosService {
     const localFilePath = path.join(__dirname, '../../uploads', filename);
     this.logger.log('Ruta local del archivo:', localFilePath);
     
-    const remoteDirPath = `/remote/path/`;
+    const remoteDirPath = ``;
     const remoteFilePath = `${remoteDirPath}${filename}`;
     this.logger.log('Ruta remota del archivo:', remoteFilePath);
     
