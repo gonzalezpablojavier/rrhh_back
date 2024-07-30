@@ -9,6 +9,10 @@ import { PermisoTemporalModule } from './permiso-temporal/permiso-temporal.modul
 import { PermisoTemporal } from './permiso-temporal/permiso-temporal.entity';
 import { PresentismoModule } from './presentismo/presentismo.module';
 import { Presentismo } from './presentismo/presentismo.entity';
+import { VacacionesModule } from './vacaciones/vacaciones.module';
+import { Vacaciones } from './vacaciones/vacaciones.entity';
+
+
 import { MulterModule } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
@@ -25,7 +29,7 @@ import { ConfigModule } from '@nestjs/config';
       username: 'rrhh',
       password: 'Integracion123**',
       database: 'admin_rrhh',
-      entities: [Colaborador,UsuariosRegistrados,PermisoTemporal,Presentismo],
+      entities: [Colaborador,UsuariosRegistrados,PermisoTemporal,Presentismo,Vacaciones],
       autoLoadEntities: true,
       synchronize: true,
     }),
@@ -43,6 +47,7 @@ import { ConfigModule } from '@nestjs/config';
     UsuariosRegistradosModule,
     PermisoTemporalModule,
     PresentismoModule,
+    VacacionesModule,
   ],
 })
 export class AppModule {}
