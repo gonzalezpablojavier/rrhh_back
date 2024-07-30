@@ -27,6 +27,13 @@ export class Vacaciones {
   colaboradorID: number;
 
   @Column()
+  vacacionesPendientes: number;
+  @Column()
+  diasCorresponden : number;
+  @Column()
+  diasDisponibles : number;
+
+  @Column()
   date: Date;
 
   @Column()
