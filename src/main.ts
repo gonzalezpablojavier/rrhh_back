@@ -8,14 +8,14 @@ async function bootstrap() {
  // Habilitar CORS
  app.enableCors({
  origin: 'https://rrhh-distrisuper.vercel.app', // Permitir solicitudes  desde cualquier origen https://rrhh-distrisuper.vercel.app
-//origin:'http://localhost:3001', 
+ //origin:'http://localhost:3001', 
  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
  allowedHeaders: ['Content-Type', 'Authorization'],
   credentials:true,
  
 });
 
-  // Configurar global pipes para validación (opcional)
+  // Configurar gldddobal pipes para validación (opcional)
   //app.useGlobalPipes(new ValidationPipe());
 
   await app.listen(3000);
