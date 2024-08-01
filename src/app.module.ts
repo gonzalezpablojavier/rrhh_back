@@ -11,6 +11,8 @@ import { PresentismoModule } from './presentismo/presentismo.module';
 import { Presentismo } from './presentismo/presentismo.entity';
 import { VacacionesModule } from './vacaciones/vacaciones.module';
 import { Vacaciones } from './vacaciones/vacaciones.entity';
+import { FeedBackModule } from './feedback/feedback.module';
+import { FeedBack } from './feedback/feedback.entity';
 
 
 import { MulterModule } from '@nestjs/platform-express';
@@ -29,8 +31,8 @@ import { ConfigModule } from '@nestjs/config';
       username: 'rrhh',
       password: 'Integracion123**',
       database: 'admin_rrhh',
-      entities: [Colaborador,UsuariosRegistrados,PermisoTemporal,Presentismo,Vacaciones],
-      autoLoadEntities: true,
+      entities: [Colaborador,UsuariosRegistrados,PermisoTemporal,Presentismo,Vacaciones,FeedBack],
+            autoLoadEntities: true,
       synchronize: true,
     }),
     MulterModule.register({
@@ -48,6 +50,7 @@ import { ConfigModule } from '@nestjs/config';
     PermisoTemporalModule,
     PresentismoModule,
     VacacionesModule,
+    FeedBackModule,
   ],
 })
 export class AppModule {}
