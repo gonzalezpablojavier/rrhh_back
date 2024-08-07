@@ -23,4 +23,7 @@ export class FeedBack {
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
+
+  @Column()
+  mesAnio: string; // Nuevo campo para registrar el mes y año (formato: 'YYYY-MM')
 }

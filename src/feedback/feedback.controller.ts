@@ -45,4 +45,15 @@ export class FeedBackController {
       return { ok: 0, message: error.message };
     }
   }
+
+  @Get('felicitaciones-disponibles/:colaboradorID')
+  async getFelicitacionesDisponibles(@Param('colaboradorID') colaboradorID: number): Promise<any> {
+    try {
+      const disponibles = await this.feedbackService.getFelicitacionesDisponiblesActuales(colaboradorID);
+      return { ok: 1, message: 'Felicitaciones disponibles obtenidas exitosamente', data: { disponibles } };
+    } catch (error) {
+      return { ok: 0, message: error.message };
+    }
+  }
+
 }
