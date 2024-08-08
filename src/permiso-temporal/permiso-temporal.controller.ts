@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, BadRequestException, HttpException, HttpStatus  } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param,Query, BadRequestException, HttpException, HttpStatus  } from '@nestjs/common';
 import { PermisoTemporalService } from './permiso-temporal.service';
 import { PermisoTemporal } from './permiso-temporal.entity';
 
@@ -62,4 +62,18 @@ export class PermisoTemporalController {
       throw new HttpException('No se encontró un permiso en evaluación para eliminar', HttpStatus.NOT_FOUND);
     }
   }
+
+  @Get('historial/:colaboradorID')
+  async getHistorial(
+    @Param('colaboradorID') colaboradorID: number,
+    @Query('limit') limit: number = 10
+  ): Promise<any> {
+    try {
+      const historial = await this.permisoTemporalService.getHistorialByColaboradorID(colaboradorID, limit);
+      return { ok: 1, message: 'Historial de permisos obtenido exitosamente', data: historial };
+    } catch (error) {
+      return { ok: 0, message: error.message };
+    }
+  }
+
 }

@@ -44,6 +44,13 @@ export class PermisoTemporalService {
     });
   }
 
+  async getHistorialByColaboradorID(colaboradorID: number, limit: number = 10): Promise<PermisoTemporal[]> {
+    return this.permisoTemporalRepository.find({
+      where: { colaboradorID },
+      order: { date: 'DESC' },
+      take: limit,
+    });
+  }
   async remove(id: number): Promise<void> {
     await this.permisoTemporalRepository.delete(id);
   }
