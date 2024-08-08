@@ -1,10 +1,35 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, HttpException, HttpStatus,Query,Logger   } from '@nestjs/common';
 import { VacacionesService } from './vacaciones.service';
 import { Vacaciones } from './vacaciones.entity';
 
 @Controller('vacaciones')
 export class VacacionesController {
+  private readonly logger = new Logger(VacacionesController.name);
   constructor(private readonly vacacionesService: VacacionesService) {}
+
+  @Get('verificar')
+  async verificarDisponibilidad(
+    @Query('fechaDesde') fechaDesde: string,
+    @Query('fechaHasta') fechaHasta: string,
+    @Query('area') area: string,
+    @Query('colaboradorID') colaboradorID: number
+  ): Promise<{ disponible: boolean }> {
+    this.logger.log(`Verificando disponibilidad: ${fechaDesde} - ${fechaHasta}, área: ${area}, colaboradorID: ${colaboradorID}`);
+    
+    try {
+      const disponible = await this.vacacionesService.verificarDisponibilidad(
+        fechaDesde,
+        fechaHasta,
+        area,
+        colaboradorID
+      );
+      this.logger.log(`Resultado de verificación: ${disponible}`);
+      return { disponible };
+    } catch (error) {
+      this.logger.error(`Error al verificar disponibilidad: ${error.message}`);
+      throw new HttpException({ disponible: false, error: error.message }, HttpStatus.BAD_REQUEST);
+    }
+  }
 
   @Post()
   async create(@Body() data: Partial<Vacaciones>): Promise<any> {
@@ -60,4 +85,6 @@ export class VacacionesController {
       throw new HttpException('No se encontró una solicitud de vacaciones en evaluación para eliminar', HttpStatus.NOT_FOUND);
     }
   }
+
+
 }

@@ -1,10 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable,Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, Between, LessThanOrEqual, MoreThanOrEqual } from 'typeorm';
 import { Vacaciones } from './vacaciones.entity';
 
 @Injectable()
 export class VacacionesService {
+
+  private readonly logger = new Logger(VacacionesService.name);
+
+
   constructor(
     @InjectRepository(Vacaciones)
     private vacacionesRepository: Repository<Vacaciones>,
@@ -62,5 +66,42 @@ export class VacacionesService {
     }
 
     return false;
+  }
+
+  async verificarDisponibilidad(
+    fechaDesde: string,
+    fechaHasta: string,
+    area: string,
+    colaboradorID: number
+  ): Promise<boolean> {
+    this.logger.log(`Verificando disponibilidad en base de datos: ${fechaDesde} - ${fechaHasta}, área: ${area}, colaboradorID: ${colaboradorID}`);
+
+    const vacacionesSolapadas = await this.vacacionesRepository.find({
+      where: [
+        {
+          area,
+          autorizado: 'Aprobado',
+          fechaPermisoDesde: LessThanOrEqual(fechaHasta),
+          fechaPermisoHasta: MoreThanOrEqual(fechaDesde),
+        },
+        {
+          area,
+          autorizado: 'Evaluando',
+          fechaPermisoDesde: LessThanOrEqual(fechaHasta),
+          fechaPermisoHasta: MoreThanOrEqual(fechaDesde),
+        },
+      ],
+    });
+
+    this.logger.log(`Vacaciones solapadas encontradas: ${vacacionesSolapadas.length}`);
+
+    // Excluir las vacaciones del colaborador actual si están en estado 'Evaluando'
+    const vacacionesSolapadasFiltradas = vacacionesSolapadas.filter(
+      (v) => !(v.colaboradorID === colaboradorID && v.autorizado === 'Evaluando')
+    );
+
+    this.logger.log(`Vacaciones solapadas después de filtrar: ${vacacionesSolapadasFiltradas.length}`);
+
+    return vacacionesSolapadasFiltradas.length === 0;
   }
 }
